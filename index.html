@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Balance Wheel</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         .accordion-content {
             transition: max-height 0.3s ease, opacity 0.3s ease;
@@ -13,8 +14,112 @@
             opacity: 0;
         }
         .accordion-content.open {
-            max-height: 200px;
+            max-height: 300px;
             opacity: 1;
+        }
+        .accordion-header {
+            background-color: #F7FAFC;
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-header:hover {
+            background-color: #E2E8F0;
+        }
+        .accordion-content {
+            padding: 12px;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .accordion-item {
+            margin-bottom: 10px;
+        }
+        button {
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        #clear {
+            background-color: #E53E3E;
+        }
+        #clear:hover {
+            background-color: #C53030;
+        }
+        #download {
+            background-color: #3182CE;
+        }
+        #download:hover {
+            background-color: #2B6CB0;
+        }
+        canvas {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Адаптація для малих екранів */
+        @media (max-width: 640px) {
+            body {
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 28px;
+            }
+
+            header p {
+                font-size: 16px;
+            }
+
+            canvas {
+                width: 100%;
+                height: auto;
+            }
+
+            .accordion-header {
+                padding: 10px;
+            }
+
+            .accordion-content {
+                padding: 8px;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            #clear, #download {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .accordion-item {
+                margin-bottom: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 24px;
+            }
+
+            header p {
+                font-size: 14px;
+            }
+
+            button {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            .accordion-header {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -29,17 +134,17 @@
             <canvas id="canvas" width="500" height="500" class="border border-gray-300 shadow-lg rounded"></canvas>
         </div>
 
-        
         <div id="accordion" class="w-full max-w-3xl space-y-4">
             <!-- Accordion items will be generated dynamically -->
         </div>
+
         <div class="flex space-x-4 mt-5 mb-10">
-            
+            <!-- Empty space for future additions if needed -->
         </div>
 
-        <div class="">
-            <button id="clear" class="px-4 py-2 bg-red-500 text-white rounded shadow-lg hover:bg-red-600 transition">Clear</button>
-            <button id="download" class="px-4 py-2 bg-blue-600 text-white rounded shadow-lg hover:bg-blue-700 transition">Завантажити</button>
+        <div class="flex flex-col space-y-4">
+            <button id="clear" class="px-6 py-3 rounded-md text-white font-semibold shadow-md transition">Очистити</button>
+            <button id="download" class="px-6 py-3 rounded-md text-white font-semibold shadow-md transition">Завантажити</button>
         </div>
         
     </main>
@@ -51,14 +156,14 @@
     <script>
         const config = {
             segments: [
-                { color: "#97CC64", text: "Здоровя", level: 5 },
-                { color: "#4569BC", text: "Карєра", level: 4 },
-                { color: "#2A8341", text: "Фінанси", level: 3 },
-                { color: "#F68D38", text: "Відносини", level: 7 },
-                { color: "#EA527F", text: "Персональний ріст", level: 6 },
-                { color: "#77B6E7", text: "Дозвілля", level: 2 },
-                { color: "#FFD963", text: "Духовність", level: 8 },
-                { color: "#A955B8", text: "Навколишнє середовище", level: 5 }
+                { color: "#97CC64", text: "Здоровя", level: 5, description: "Тут ти можеш оцінити своє фізичне та психічне здоров’я." },
+                { color: "#4569BC", text: "Карєра", level: 4, description: "Оцінка професійного розвитку та кар'єрних досягнень." },
+                { color: "#2A8341", text: "Фінанси", level: 3, description: "Баланс твоїх фінансів та здатність до збережень." },
+                { color: "#F68D38", text: "Відносини", level: 7, description: "Якість відносин з близькими, друзями та партнерами." },
+                { color: "#EA527F", text: "Персональний ріст", level: 6, description: "Розвиток особистості та самовдосконалення." },
+                { color: "#77B6E7", text: "Дозвілля", level: 2, description: "Час для себе, хобі та розваги." },
+                { color: "#FFD963", text: "Духовність", level: 8, description: "Зв'язок з духовним світом та внутрішнім спокоєм." },
+                { color: "#A955B8", text: "Навколишнє середовище", level: 5, description: "Оцінка стану навколишнього середовища та еко-свідомості." }
             ],
             radius: 200,
             levels: 10,
@@ -69,80 +174,79 @@
         const ctx = canvas.getContext("2d");
 
         class Wheel {
-    constructor(canvas, config) {
-        this.canvas = canvas;
-        this.ctx = canvas.getContext("2d");
-        this.config = config;
-    }
+            constructor(canvas, config) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext("2d");
+                this.config = config;
+            }
 
-    draw() {
-        const { segments, radius, levels } = this.config;
-        const ctx = this.ctx;
-        const centerX = this.canvas.width / 2;
-        const centerY = this.canvas.height / 2;
-        const angleStep = (2 * Math.PI) / segments.length;
+            draw() {
+                const { segments, radius, levels } = this.config;
+                const ctx = this.ctx;
+                const centerX = this.canvas.width / 2;
+                const centerY = this.canvas.height / 2;
+                const angleStep = (2 * Math.PI) / segments.length;
 
-        // Draw levels and their labels
-        for (let i = 1; i <= levels; i++) {
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, (radius / levels) * i, 0, 2 * Math.PI);
-            ctx.strokeStyle = "#ccc";
-            ctx.stroke();
+                // Draw levels and their labels
+                for (let i = 1; i <= levels; i++) {
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, (radius / levels) * i, 0, 2 * Math.PI);
+                    ctx.strokeStyle = "#ccc";
+                    ctx.stroke();
 
-            // Draw level number
-            ctx.font = "12px Arial";
-            ctx.color = "#FFF";
-            ctx.fillStyle = "#000";
-            const levelAngle = Math.PI / 2;
-            const levelX = centerX + Math.cos(levelAngle) * (radius / levels) * i;
-            const levelY = centerY + Math.sin(levelAngle) * (radius / levels) * i;
-            ctx.fillText(i, levelX, levelY);
+                    // Draw level number
+                    ctx.font = "12px Arial";
+                    ctx.color = "#FFF";
+                    ctx.fillStyle = "#000";
+                    const levelAngle = Math.PI / 2;
+                    const levelX = centerX + Math.cos(levelAngle) * (radius / levels) * i;
+                    const levelY = centerY + Math.sin(levelAngle) * (radius / levels) * i;
+                    ctx.fillText(i, levelX, levelY);
+                }
+
+                // Draw segments
+                segments.forEach((segment, index) => {
+                    const startAngle = index * angleStep;
+                    const endAngle = startAngle + angleStep;
+
+                    // Segment background
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                    ctx.fillStyle = segment.color;
+                    ctx.fill();
+
+                    // Level indicator
+                    const segmentRadius = (segment.level / levels) * radius;
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.arc(centerX, centerY, segmentRadius, startAngle, endAngle);
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+                    ctx.fill();
+
+                    // Text
+                    const textAngle = startAngle + angleStep / 2;
+                    const textX = centerX + Math.cos(textAngle) * (radius + 20);
+                    const textY = centerY + Math.sin(textAngle) * (radius + 20);
+                    ctx.font = `${this.config.fontSize}px Arial`;
+                    ctx.color = "#FFF";
+                    ctx.fillStyle = "#000";
+                    ctx.textAlign = "center";
+                    ctx.fillText(segment.text, textX, textY);
+                });
+            }
+
+            clear() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            }
+
+            download() {
+                const link = document.createElement('a');
+                link.download = 'balance_wheel.png';
+                link.href = this.canvas.toDataURL();
+                link.click();
+            }
         }
-
-        // Draw segments
-        segments.forEach((segment, index) => {
-            const startAngle = index * angleStep;
-            const endAngle = startAngle + angleStep;
-
-            // Segment background
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-            ctx.fillStyle = segment.color;
-            ctx.fill();
-
-            // Level indicator
-            const segmentRadius = (segment.level / levels) * radius;
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, segmentRadius, startAngle, endAngle);
-            ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
-            ctx.fill();
-
-            // Text
-            const textAngle = startAngle + angleStep / 2;
-            const textX = centerX + Math.cos(textAngle) * (radius + 20);
-            const textY = centerY + Math.sin(textAngle) * (radius + 20);
-            ctx.font = `${this.config.fontSize}px Arial`;
-            ctx.color = "#FFF";
-            ctx.fillStyle = "#000";
-            ctx.textAlign = "center";
-            ctx.fillText(segment.text, textX, textY);
-        });
-    }
-
-    clear() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-
-    download() {
-        const link = document.createElement('a');
-        link.download = 'balance_wheel.png';
-        link.href = this.canvas.toDataURL();
-        link.click();
-    }
-}
-
 
         const wheel = new Wheel(canvas, config);
         wheel.draw();
@@ -151,18 +255,31 @@
 
         config.segments.forEach((segment, index) => {
             const item = document.createElement("div");
-            item.className = "border border-gray-300 rounded overflow-hidden shadow-md";
+            item.className = "accordion-item";
 
             const header = document.createElement("div");
-            header.className = "bg-gray-100 p-3 cursor-pointer flex justify-between items-center transition hover:bg-gray-200";
-            header.innerHTML = `<span>${segment.text}</span>`;
+            header.className = "accordion-header flex justify-between items-center";
+            header.innerHTML = `
+                <span class="flex-1 text-xl font-bold italic">${segment.text}</span>
+                <i class="fa fa-chevron-down"></i>
+            `;
             header.addEventListener("click", () => {
                 const content = item.querySelector(".accordion-content");
+                const icon = header.querySelector("i");
                 content.classList.toggle("open");
+
+                // Змінюємо іконку при відкритті/закритті
+                if (content.classList.contains("open")) {
+                    icon.classList.remove("fa-chevron-down");
+                    icon.classList.add("fa-chevron-up");
+                } else {
+                    icon.classList.remove("fa-chevron-up");
+                    icon.classList.add("fa-chevron-down");
+                }
             });
 
             const content = document.createElement("div");
-            content.className = "accordion-content p-3 bg-white";
+            content.className = "accordion-content";
             content.innerHTML = `
                 <div class="flex items-center gap-2">
                     <label for="slider-${index}" class="flex-1 font-medium text-gray-700">${segment.text} Рівень:</label>
@@ -177,16 +294,17 @@
                 </div>
             `;
 
-            content.querySelector("input").addEventListener("input", (e) => {
-                segment.level = parseInt(e.target.value);
-                wheel.clear();
-                wheel.draw();
-            });
+    content.querySelector("input").addEventListener("input", (e) => {
+        segment.level = parseInt(e.target.value);
+        wheel.clear();
+        wheel.draw();
+    });
 
-            item.appendChild(header);
-            item.appendChild(content);
-            accordion.appendChild(item);
-        });
+    item.appendChild(header);
+    item.appendChild(content);
+    accordion.appendChild(item);
+});
+
 
         document.getElementById("clear").addEventListener("click", () => {
             wheel.clear();
