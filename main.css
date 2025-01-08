@@ -1,0 +1,136 @@
+/* Загальні стилі для Accordion */
+.accordion-content {
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+  }
+  
+  .accordion-content.open {
+    max-height: 300px;
+    opacity: 1;
+  }
+  
+  .accordion-header {
+    background-color: #f7fafc;
+    padding: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .accordion-header:hover {
+    background-color: #e2e8f0;
+  }
+  
+  .accordion-content {
+    padding: 12px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .accordion-item {
+    margin-bottom: 10px;
+  }
+  
+  /* Стилі для кнопок */
+  button {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  button:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Кнопка "Очистити" */
+  #clear {
+    background-color: #e53e3e;
+  }
+  
+  #clear:hover {
+    background-color: #c53030;
+  }
+  
+  /* Кнопка "Завантажити" */
+  #download {
+    background-color: #3182ce;
+  }
+  
+  #download:hover {
+    background-color: #2b6cb0;
+  }
+  
+  /* Стилі для Canvas */
+  canvas {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+  }
+  
+  /* Адаптація для малих екранів */
+  @media (max-width: 640px) {
+    body {
+      padding: 20px;
+    }
+  
+    header h1 {
+      font-size: 28px;
+    }
+  
+    header p {
+      font-size: 16px;
+    }
+  
+    canvas {
+      width: 100%;
+      height: auto;
+    }
+  
+    .accordion-header {
+      padding: 10px;
+      font-size: 16px;
+    }
+  
+    .accordion-content {
+      padding: 8px;
+    }
+  
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+  
+    #clear,
+    #download {
+      width: 100%;
+      margin-top: 10px;
+    }
+  
+    .accordion-item {
+      margin-bottom: 8px;
+    }
+  }
+  
+  /* Додаткова адаптація для дуже малих екранів */
+  @media (max-width: 480px) {
+    header h1 {
+      font-size: 24px;
+    }
+  
+    header p {
+      font-size: 14px;
+    }
+  
+    button {
+      padding: 8px 16px;
+      font-size: 12px;
+    }
+  
+    .accordion-header {
+      font-size: 14px;
+    }
+  }
+  
