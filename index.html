@@ -1,112 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Balance Wheel</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="main.css">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="main.css" />
     <style>
-        body {
-            background: linear-gradient(to bottom, #f9fafb, #e2e8f0);
-        }
-        /* header {
-            background: linear-gradient(90deg, #C479E6, #805AD5);
-            padding: 2rem;
-            border-radius: 0.5rem;
-            color: white;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        } */
-        .sphere-item input {
-            margin-right: 0.5rem;
-        }
-        button {
-            transition: transform 0.2s ease-in-out;
-        }
-        button:hover {
-            transform: scale(1.05);
-        }
+      body {
+        background: linear-gradient(to bottom, #f0f9ff, #a7c7e7);
+        font-family: 'Inter', sans-serif;
+      }
+
+      header {
+        background: linear-gradient(90deg, #0077b6, #90e0ef);
+        padding: 2rem;
+        border-radius: 0.75rem;
+        color: white;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+      }
+
+      .sphere-item input {
+        margin-right: 0.5rem;
+      }
+
+      button {
+        transition: transform 0.2s ease-in-out, background-color 0.3s ease;
+      }
+
+      button:hover {
+        transform: scale(1.05);
+      }
+
+      .bg-gray-500 {
+        background-color: #0077b6 !important;
+      }
+
+      .bg-blue-500 {
+        background-color: #90e0ef !important;
+      }
+
+      .bg-green-500 {
+        background-color: #caf0f8 !important;
+      }
+
+      .hover\:bg-gray-700:hover {
+        background-color: #023e8a !important;
+      }
+
+      .hover\:bg-blue-700:hover {
+        background-color: #00b4d8 !important;
+      }
+
+      .hover\:bg-green-700:hover {
+        background-color: #ade8f4 !important;
+      }
+
+      canvas {
+        border-color: #0077b6;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      }
     </style>
-</head>
-<body class="min-h-screen flex flex-col items-center p-5">
+  </head>
+  <body class="min-h-screen flex flex-col items-center p-5">
     <header class="w-full max-w-5xl mb-5 text-center">
-        <img src="assets/hero.png" alt="" class="rounded-lg">
-        <h1 class="text-4xl font-bold mb-2">Колесо Балансу</h1>
-        <p class="text-lg">Візуалізація балансу твого життя</p>
+      <img src="assets/hero.png" alt="" class="rounded-lg shadow-lg" />
+      <h1 class="text-4xl font-bold mb-2">Колесо Балансу</h1>
+      <p class="text-lg text-gray-100">Візуалізація балансу твого життя</p>
     </header>
 
     <main class="flex flex-col items-center w-full max-w-5xl">
-        <div class="relative mb-8">
-            <canvas id="canvas" width="600" height="600" class="border border-gray-300 shadow-lg rounded"></canvas>
-        </div>
+      <div class="relative mb-8">
+        <canvas
+          id="canvas"
+          width="600"
+          height="600"
+          class="border border-gray-300 shadow-lg rounded-lg"
+        ></canvas>
+      </div>
 
-        <div id="accordion" class="w-full max-w-3xl space-y-4">
-            <!-- Accordion items will be generated dynamically -->
-        </div>
+      <div id="accordion" class="w-full max-w-3xl space-y-4">
+        <!-- Accordion items will be generated dynamically -->
+      </div>
 
-        <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
-            <button id="clear" class="px-6 py-3 bg-gray-500 text-white rounded-md font-semibold shadow-md hover:bg-gray-700">Очистити</button>
-            <button id="download" class="px-6 py-3 bg-blue-500 text-white rounded-md font-semibold shadow-md hover:bg-blue-700">Завантажити</button>
-        </div>
+      <div
+        class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0"
+      >
+        <button
+          id="clear"
+          class="px-6 py-3 bg-gray-500 text-white rounded-md font-semibold shadow-md hover:bg-gray-700"
+        >
+          Очистити
+        </button>
+        <button
+          id="download"
+          class="px-6 py-3 bg-blue-500 text-white rounded-md font-semibold shadow-md hover:bg-blue-700"
+        >
+          Завантажити
+        </button>
+      </div>
 
-        <div id="sphere-selection" class="mt-10">
-            <h3 class="text-xl font-semibold mb-4">Виберіть 8 сфер для колеса</h3>
-            <div id="sphere-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-5">
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere1" value="Здоров'я"> Здоров'я
-                </label>
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere2" value="Сім'я, відносини"> Сім'я, відносини
-                </label>
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere3" value="Самореалізація"> Самореалізація
-                </label>
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere4" value="Фінанси"> Фінанси
-                </label>
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere5" value="Професійна діяльність, Бізнес"> Професійна діяльність, Бізнес
-                </label>
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere6" value="Особистісний розвиток"> Особистісний розвиток
-                </label>
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere7" value="Відпочинок, подорожі, Яскравість життя"> Відпочинок, подорожі, Яскравість життя
-                </label>
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere8" value="Друзі, оточення"> Друзі, оточення
-                </label>
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere9" value="Соціальні проекти, Громадська діяльність"> Соціальні проекти, Громадська діяльність
-                </label>
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere10" value="Навколишнє середовище"> Навколишнє середовище
-                </label>
-                <label class="sphere-item"> 
-                    <input type="checkbox" id="sphere11" value="Емоційне благополуччя"> Емоційне благополуччя
-                </label>
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere12" value="Творчість та самовираження"> Творчість та самовираження
-                </label>
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere13" value="Духовність та внутрішній світ"> Духовність та внутрішній світ
-                </label>
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere14" value="Романтичні відносини"> Романтичні відносини
-                </label>
-                <label class="sphere-item">
-                    <input type="checkbox" id="sphere15" value="Діти"> Діти
-                </label>
-            </div>
-            <button id="add-selected-spheres" class="px-6 py-3 bg-green-500 text-white rounded-md font-semibold shadow-md hover:bg-green-700">Додати до колеса</button>
+      <div id="sphere-selection" class="mt-10">
+        <h3 class="text-xl font-semibold mb-4 text-gray-700">Виберіть 8 сфер для колеса</h3>
+        <div
+          id="sphere-list"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-5"
+        >
+          <label class="sphere-item">
+            <input type="checkbox" id="sphere1" value="Здоров'я" /> Здоров'я
+          </label>
+          <label class="sphere-item">
+            <input type="checkbox" id="sphere2" value="Сім'я, відносини" />
+            Сім'я, відносини
+          </label>
+          <label class="sphere-item">
+            <input type="checkbox" id="sphere3" value="Самореалізація" />
+            Самореалізація
+          </label>
+          <label class="sphere-item">
+            <input type="checkbox" id="sphere4" value="Фінанси" /> Фінанси
+          </label>
+          <label class="sphere-item">
+            <input
+              type="checkbox"
+              id="sphere5"
+              value="Професійна діяльність, Бізнес"
+            />
+            Професійна діяльність, Бізнес
+          </label>
+          <label class="sphere-item">
+            <input type="checkbox" id="sphere6" value="Особистісний розвиток" />
+            Особистісний розвиток
+          </label>
+          <label class="sphere-item">
+            <input
+              type="checkbox"
+              id="sphere7"
+              value="Відпочинок, подорожі, Яскравість життя"
+            />
+            Відпочинок, подорожі, Яскравість життя
+          </label>
+          <label class="sphere-item">
+            <input type="checkbox" id="sphere8" value="Друзі, оточення" />
+            Друзі, оточення
+          </label>
+          <label class="sphere-item">
+            <input
+              type="checkbox"
+              id="sphere9"
+              value="Соціальні проекти, Громадська діяльність"
+            />
+            Соціальні проекти, Громадська діяльність
+          </label>
+          <label class="sphere-item">
+            <input
+              type="checkbox"
+              id="sphere10"
+              value="Навколишнє середовище"
+            />
+            Навколишнє середовище
+          </label>
+          <label class="sphere-item">
+            <input
+              type="checkbox"
+              id="sphere11"
+              value="Емоційне благополуччя"
+            />
+            Емоційне благополуччя
+          </label>
+          <label class="sphere-item">
+            <input
+              type="checkbox"
+              id="sphere12"
+              value="Творчість та самовираження"
+            />
+            Творчість та самовираження
+          </label>
+          <label class="sphere-item">
+            <input
+              type="checkbox"
+              id="sphere13"
+              value="Духовність та внутрішній світ"
+            />
+            Духовність та внутрішній світ
+          </label>
+          <label class="sphere-item">
+            <input type="checkbox" id="sphere14" value="Романтичні відносини" />
+            Романтичні відносини
+          </label>
+          <label class="sphere-item">
+            <input type="checkbox" id="sphere15" value="Діти" /> Діти
+          </label>
         </div>
+        <button
+          id="add-selected-spheres"
+          class="px-6 py-3 bg-green-500 text-white rounded-md font-semibold shadow-md hover:bg-green-700"
+        >
+          Додати до колеса
+        </button>
+      </div>
     </main>
 
     <footer class="w-full max-w-5xl mt-10 text-center text-gray-500 text-sm">
-        © 2024 Balance Wheel by __pedelo__
+      © 2024 Balance Wheel by __pedelo__
     </footer>
 
     <script src="main.js"></script>
-</body>
+  </body>
 </html>
