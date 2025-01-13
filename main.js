@@ -5,62 +5,64 @@ const config = {
       color: "#97CC64",
       text: "Здоров'я",
       level: 5,
-      description: "Тут ти можеш оцінити своє фізичне та психічне здоров’я.",
+      description: "Саме від цієї сфери залежать всі інші сфери колеса життєвого балансу. Якщо у людини проблеми зі здоров’ям, і він відчуває якийсь дискомфорт, то інші справи в інших сферах починають сповільнюватися або просідати. Здоров’я включає в себе фізичне, емоційне та психічне благополуччя. Важливо підтримувати здоровий спосіб життя, включаючи правильне харчування, регулярні фізичні вправи, достатній сон та управління стресом.",
     },
     {
       id: 2,
       color: "#4569BC",
-      text: "Кар'єра",
-      level: 4,
-      description: "Оцінка професійного розвитку та кар'єрних досягнень.",
+      text: "Сім'я та Відносини",
+      level: 7,
+      description: "Ця сфера охоплює ваші відносини з родиною, партнером та близькими людьми. Важливо мати здорові та гармонійні відносини, які сприяють вашому емоційному та психологічному благополуччю. Відносини з близькими можуть надавати підтримку, допомогу та натхнення у складних ситуаціях.",
     },
     {
       id: 3,
       color: "#2A8341",
-      text: "Фінанси",
-      level: 3,
-      description: "Баланс твоїх фінансів та здатність до збережень.",
+      text: "Самореалізація",
+      level: 6,
+      description: "Ця сфера охоплює ваші особисті цілі, мрії та прагнення. Самореалізація - це процес досягнення вашого потенціалу та реалізації ваших талантів і здібностей. Вона включає в себе розвиток навичок, навчання новому, досягнення професійних та особистих цілей.",
     },
     {
       id: 4,
       color: "#F68D38",
-      text: "Відносини",
-      level: 7,
-      description: "Якість відносин з близькими, друзями та партнерами.",
+      text: "Фінанси",
+      level: 3,
+      description: "Ця сфера охоплює управління вашими грошима, заощадження, інвестиції та фінансову стабільність. Важливо мати чіткий план щодо управління фінансами, щоб забезпечити собі фінансову безпеку та стабільність. Це включає в себе створення бюджету, планування витрат, заощадження на майбутнє та інвестування.",
     },
     {
       id: 5,
       color: "#EA527F",
-      text: "Персональний ріст",
-      level: 6,
-      description: "Розвиток особистості та самовдосконалення.",
+      text: `Професійна діяльність та Бізнес`,
+      level: 4,
+      description: "Ця сфера охоплює вашу кар'єру, роботу та бізнес-активності. Важливо мати роботу або бізнес, який приносить вам задоволення та відповідає вашим цінностям і цілям. Професійна діяльність також впливає на ваші фінанси, соціальні зв'язки та особистий розвиток.",
     },
     {
       id: 6,
       color: "#77B6E7",
-      text: "Дозвілля",
-      level: 2,
-      description: "Час для себе, хобі та розваги.",
+      text: "Особистісний розвиток",
+      level: 5,
+      description: "Ця сфера охоплює ваші зусилля щодо самовдосконалення та навчання. Це може бути навчання новим мовам, участь у тренінгах, читання книг, відвідування семінарів або робота з коучем.",
     },
     {
       id: 7,
       color: "#FFD963",
-      text: "Духовність",
-      level: 8,
-      description: "Зв'язок з духовним світом та внутрішнім спокоєм.",
+      text: "Відпочинок, Подорожі " +
+          "та Яскравість життя",
+      level: 2,
+      description: "Ця сфера охоплює ваші хобі, захоплення, подорожі та будь-які інші активності, які приносять вам радість і задоволення. Відпочинок та подорожі допомагають відновити енергію, знизити рівень стресу та покращити загальне самопочуття.",
     },
     {
       id: 8,
       color: "#A955B8",
-      text: "Навколишнє середовище",
-      level: 5,
-      description: "Оцінка стану навколишнього середовища та еко-свідомості.",
+      text: "Друзі та Оточення",
+      level: 6,
+      description: "Ця сфера охоплює ваші соціальні зв'язки, відносини з друзями та людьми, з якими ви проводите час. Важливо мати здорові та позитивні відносини, які сприяють вашому розвитку та щастю.",
     },
   ],
-  radius: 200,
+  radius: 270,
   levels: 10,
   fontSize: 15,
 };
+
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -186,7 +188,6 @@ const createSegmentItem = (segment, index) => {
   return item;
 };
 
-
 config.segments.forEach((segment, index) => {
   accordion.appendChild(createSegmentItem(segment, index));
 });
@@ -207,15 +208,27 @@ document
     const selectedSpheres = document.querySelectorAll(
       "#sphere-list input:checked"
     );
+
+    if (config.segments.length >= 8) {
+      const message = document.getElementById("message");
+      message.style.display = "block";
+      setTimeout(() => {
+        message.style.display = "none";
+      }, 3000); // Приховуємо повідомлення через 3 секунди
+      return;
+    }
+
     selectedSpheres.forEach((checkbox) => {
-      const sphereText = checkbox.value;
-      if (!config.segments.some((segment) => segment.text === sphereText)) {
+      // Отримуємо текст з елемента label поруч з чекбоксом
+      const sphereText = checkbox.closest('label') ? checkbox.closest('label').textContent.trim() : '';
+      
+      if (sphereText && !config.segments.some((segment) => segment.text === sphereText)) {
         const newSegment = {
           id: config.segments.length + 1,
           color: getRandomColor(),
           text: sphereText,
           level: 0,
-          description: `Опис для ${sphereText}`,
+          description: `${checkbox.value}`,
         };
         config.segments.push(newSegment);
       }
@@ -223,26 +236,11 @@ document
     renderWheelAndAccordion();
   });
 
-
-
-  const renderWheelAndAccordion = () => {
-    wheel.clear();
-    wheel.draw();
-    accordion.innerHTML = "";
-    config.segments.forEach((segment, index) => {
-      accordion.appendChild(createSegmentItem(segment, index));
-    });
-  };
-// Download and clear events
-document.getElementById("download").addEventListener("click", () => {
-  wheel.download();
-});
-
-
-
-document.getElementById("clear").addEventListener("click", () => {
-  config.segments.forEach((segment) => {
-    segment.level = 0;
+const renderWheelAndAccordion = () => {
+  wheel.clear();
+  wheel.draw();
+  accordion.innerHTML = "";
+  config.segments.forEach((segment, index) => {
+    accordion.appendChild(createSegmentItem(segment, index));
   });
-  renderWheelAndAccordion();
-});
+};

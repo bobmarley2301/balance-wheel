@@ -13,7 +13,7 @@
     <style>
       body {
         background: linear-gradient(to bottom, #f0f9ff, #a7c7e7);
-        font-family: 'Inter', sans-serif;
+        font-family: "Inter", sans-serif;
       }
 
       header {
@@ -77,8 +77,8 @@
       <div class="relative mb-8">
         <canvas
           id="canvas"
-          width="600"
-          height="600"
+          width="800"
+          height="800"
           class="border border-gray-300 shadow-lg rounded-lg"
         ></canvas>
       </div>
@@ -105,104 +105,154 @@
       </div>
 
       <div id="sphere-selection" class="mt-10">
-        <h3 class="text-xl font-semibold mb-4 text-gray-700">Виберіть 8 сфер для колеса</h3>
-        <div
-          id="sphere-list"
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-5"
-        >
-          <label class="sphere-item">
-            <input type="checkbox" id="sphere1" value="Здоров'я" /> Здоров'я
-          </label>
-          <label class="sphere-item">
-            <input type="checkbox" id="sphere2" value="Сім'я, відносини" />
-            Сім'я, відносини
-          </label>
-          <label class="sphere-item">
-            <input type="checkbox" id="sphere3" value="Самореалізація" />
-            Самореалізація
-          </label>
-          <label class="sphere-item">
-            <input type="checkbox" id="sphere4" value="Фінанси" /> Фінанси
-          </label>
-          <label class="sphere-item">
-            <input
-              type="checkbox"
-              id="sphere5"
-              value="Професійна діяльність, Бізнес"
-            />
-            Професійна діяльність, Бізнес
-          </label>
-          <label class="sphere-item">
-            <input type="checkbox" id="sphere6" value="Особистісний розвиток" />
-            Особистісний розвиток
-          </label>
-          <label class="sphere-item">
-            <input
-              type="checkbox"
-              id="sphere7"
-              value="Відпочинок, подорожі, Яскравість життя"
-            />
-            Відпочинок, подорожі, Яскравість життя
-          </label>
-          <label class="sphere-item">
-            <input type="checkbox" id="sphere8" value="Друзі, оточення" />
-            Друзі, оточення
-          </label>
-          <label class="sphere-item">
-            <input
-              type="checkbox"
-              id="sphere9"
-              value="Соціальні проекти, Громадська діяльність"
-            />
-            Соціальні проекти, Громадська діяльність
-          </label>
-          <label class="sphere-item">
-            <input
-              type="checkbox"
-              id="sphere10"
-              value="Навколишнє середовище"
-            />
-            Навколишнє середовище
-          </label>
-          <label class="sphere-item">
-            <input
-              type="checkbox"
-              id="sphere11"
-              value="Емоційне благополуччя"
-            />
-            Емоційне благополуччя
-          </label>
-          <label class="sphere-item">
-            <input
-              type="checkbox"
-              id="sphere12"
-              value="Творчість та самовираження"
-            />
-            Творчість та самовираження
-          </label>
-          <label class="sphere-item">
-            <input
-              type="checkbox"
-              id="sphere13"
-              value="Духовність та внутрішній світ"
-            />
-            Духовність та внутрішній світ
-          </label>
-          <label class="sphere-item">
-            <input type="checkbox" id="sphere14" value="Романтичні відносини" />
-            Романтичні відносини
-          </label>
-          <label class="sphere-item">
-            <input type="checkbox" id="sphere15" value="Діти" /> Діти
-          </label>
+        <!-- Акордеон -->
+        <div id="accordion">
+          <button
+            class="px-6 py-3 bg-blue-500 text-white rounded-md font-semibold shadow-md hover:bg-blue-700 transition-all w-full text-left"
+            onclick="toggleAccordion()"
+          >
+            Додати додаткові поля
+          </button>
+          <div
+            id="accordion-content"
+            class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out"
+            style="padding-top: 20px;"
+          >
+            <div
+              id="message"
+              style="display:none; background-color: #ff9800; color: white; padding: 10px; text-align: center; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;"
+            >
+              Вибрано максимальну кількість сегментів (8). Щоб додати нові, спершу видаліть існуючі.
+            </div>
+            <h3 class="text-xl font-semibold mb-4 text-gray-700">
+              Виберіть 8 сфер для колеса
+            </h3>
+            <div
+              id="sphere-list"
+              class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-5"
+            >
+              <label class="sphere-item p-4 bg-gray-100 rounded-md shadow-md hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="sphere2"
+                  value="Соціальні проекти, духовність, громадська діяльність: Розв’язання локальних проблем, підтримка громадянської спільности, волонтерство, доброустрій міст і районів, освіта дітей та молоді тощо."
+                  class="hidden checkbox-input"
+                />
+                <div class="w-5 h-5 border-2 border-gray-400 rounded-sm flex justify-center items-center checkbox-container">
+                  <div class="w-3 h-3 bg-purple-500 rounded-sm opacity-0 checkbox-checked"></div>
+                </div>
+                <span class="text-gray-700">Соціальні проекти, духовність, громадська діяльність</span>
+              </label>
+        
+              <label class="sphere-item p-4 bg-gray-100 rounded-md shadow-md hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="sphere3"
+                  value="Навколишнє середовище: Житлові умови, комфорт та безпека. Включає в себе фізичний простір, який впливає на самопочуття, продуктивність, організацію простору та доступ до природи."
+                  class="hidden checkbox-input"
+                />
+                <div class="w-5 h-5 border-2 border-gray-400 rounded-sm flex justify-center items-center checkbox-container">
+                  <div class="w-3 h-3 bg-purple-500 rounded-sm opacity-0 checkbox-checked"></div>
+                </div>
+                <span class="text-gray-700">Навколишнє середовище</span>
+              </label>
+        
+              <label class="sphere-item p-4 bg-gray-100 rounded-md shadow-md hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="sphere5"
+                  value="Емоційне благополуччя: Розвиток емоційного інтелекту, здатність розпізнавати та виражати свої емоції, а також вміння справлятися зі стресом."
+                  class="hidden checkbox-input"
+                />
+                <div class="w-5 h-5 border-2 border-gray-400 rounded-sm flex justify-center items-center checkbox-container">
+                  <div class="w-3 h-3 bg-purple-500 rounded-sm opacity-0 checkbox-checked"></div>
+                </div>
+                <span class="text-gray-700">Емоційне благополуччя</span>
+              </label>
+        
+              <label class="sphere-item p-4 bg-gray-100 rounded-md shadow-md hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="sphere6"
+                  value="Творчість та самовираження: Творчі здібності, мистецтво, музика, письмо, танці — усі форми самовираження для підвищення самооцінки та зняття стресу."
+                  class="hidden checkbox-input"
+                />
+                <div class="w-5 h-5 border-2 border-gray-400 rounded-sm flex justify-center items-center checkbox-container">
+                  <div class="w-3 h-3 bg-purple-500 rounded-sm opacity-0 checkbox-checked"></div>
+                </div>
+                <span class="text-gray-700">Творчість та самовираження</span>
+              </label>
+        
+              <label class="sphere-item p-4 bg-gray-100 rounded-md shadow-md hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="sphere7"
+                  value="Духовність та внутрішній світ: Ваша віра, медитація, йога для гармонії, самопізнання та внутрішнього спокою."
+                  class="hidden checkbox-input"
+                />
+                <div class="w-5 h-5 border-2 border-gray-400 rounded-sm flex justify-center items-center checkbox-container">
+                  <div class="w-3 h-3 bg-purple-500 rounded-sm opacity-0 checkbox-checked"></div>
+                </div>
+                <span class="text-gray-700">Духовність та внутрішній світ</span>
+              </label>
+        
+              <label class="sphere-item p-4 bg-gray-100 rounded-md shadow-md hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="sphere8"
+                  value="Романтичні відносини: Відносини з партнером, любов та інтимність для емоційної підтримки, мотивації та близькості."
+                  class="hidden checkbox-input"
+                />
+                <div class="w-5 h-5 border-2 border-gray-400 rounded-sm flex justify-center items-center checkbox-container">
+                  <div class="w-3 h-3 bg-purple-500 rounded-sm opacity-0 checkbox-checked"></div>
+                </div>
+                <span class="text-gray-700">Романтичні відносини</span>
+              </label>
+        
+              <label class="sphere-item p-4 bg-gray-100 rounded-md shadow-md hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="sphere10"
+                  value="Діти: Виховання, підтримка дітей, створення позитивного середовища для розвитку та підтримки їхніх потреб."
+                  class="hidden checkbox-input"
+                />
+                <div class="w-5 h-5 border-2 border-gray-400 rounded-sm flex justify-center items-center checkbox-container">
+                  <div class="w-3 h-3 bg-purple-500 rounded-sm opacity-0 checkbox-checked"></div>
+                </div>
+                <span class="text-gray-700">Діти</span>
+              </label>
+            </div>
+            <button
+              id="add-selected-spheres"
+              class="px-6 py-3 bg-green-500 text-white rounded-md font-semibold shadow-md hover:bg-green-700 transition-all"
+            >
+              Додати до колеса
+            </button>
+          </div>
         </div>
-        <button
-          id="add-selected-spheres"
-          class="px-6 py-3 bg-green-500 text-white rounded-md font-semibold shadow-md hover:bg-green-700"
-        >
-          Додати до колеса
-        </button>
       </div>
+      
+      
+      <script>
+        function toggleAccordion() {
+          const content = document.getElementById('accordion-content');
+          const isVisible = content.style.maxHeight !== '0px';
+      
+          if (isVisible) {
+            content.style.maxHeight = '0px';
+          } else {
+            content.style.maxHeight = content.scrollHeight + 'px';
+          }
+        }
+      </script>
+      
+      </div>
+
+      <style>
+        input[type="checkbox"]:checked + div .checkbox-checked {
+          opacity: 1;
+        }
+      </style>
     </main>
 
     <footer class="w-full max-w-5xl mt-10 text-center text-gray-500 text-sm">

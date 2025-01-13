@@ -1,4 +1,4 @@
-/* Загальні стилі для Accordion */
+
 .accordion-content {
     transition: max-height 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
