@@ -10,14 +10,14 @@ const config = {
     {
       id: 2,
       color: "#4569BC",
-      text: "Сім'я та Відносини",
+      text: "Сім'я",
       level: 7,
       description: "Ця сфера охоплює ваші відносини з родиною, партнером та близькими людьми. Важливо мати здорові та гармонійні відносини, які сприяють вашому емоційному та психологічному благополуччю. Відносини з близькими можуть надавати підтримку, допомогу та натхнення у складних ситуаціях.",
     },
     {
       id: 3,
       color: "#2A8341",
-      text: "Самореалізація",
+      text: "Саморозвиток",
       level: 6,
       description: "Ця сфера охоплює ваші особисті цілі, мрії та прагнення. Самореалізація - це процес досягнення вашого потенціалу та реалізації ваших талантів і здібностей. Вона включає в себе розвиток навичок, навчання новому, досягнення професійних та особистих цілей.",
     },
@@ -31,38 +31,36 @@ const config = {
     {
       id: 5,
       color: "#EA527F",
-      text: `Професійна діяльність та Бізнес`,
+      text: `Кар'єра`,
       level: 4,
       description: "Ця сфера охоплює вашу кар'єру, роботу та бізнес-активності. Важливо мати роботу або бізнес, який приносить вам задоволення та відповідає вашим цінностям і цілям. Професійна діяльність також впливає на ваші фінанси, соціальні зв'язки та особистий розвиток.",
     },
     {
       id: 6,
       color: "#77B6E7",
-      text: "Особистісний розвиток",
+      text: "Духовність",
       level: 5,
       description: "Ця сфера охоплює ваші зусилля щодо самовдосконалення та навчання. Це може бути навчання новим мовам, участь у тренінгах, читання книг, відвідування семінарів або робота з коучем.",
     },
     {
       id: 7,
       color: "#FFD963",
-      text: "Відпочинок, Подорожі " +
-          "та Яскравість життя",
+      text: "Відпочинок",
       level: 2,
       description: "Ця сфера охоплює ваші хобі, захоплення, подорожі та будь-які інші активності, які приносять вам радість і задоволення. Відпочинок та подорожі допомагають відновити енергію, знизити рівень стресу та покращити загальне самопочуття.",
     },
     {
       id: 8,
       color: "#A955B8",
-      text: "Друзі та Оточення",
+      text: "Друзі",
       level: 6,
       description: "Ця сфера охоплює ваші соціальні зв'язки, відносини з друзями та людьми, з якими ви проводите час. Важливо мати здорові та позитивні відносини, які сприяють вашому розвитку та щастю.",
     },
   ],
   radius: 270,
   levels: 10,
-  fontSize: 15,
+  fontSize: 17,
 };
-
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -84,14 +82,14 @@ class Wheel {
       const startAngle = index * angleStep;
       const endAngle = startAngle + angleStep;
 
-      // Segment
+      // Малюємо сегмент
       this.ctx.beginPath();
       this.ctx.moveTo(centerX, centerY);
       this.ctx.arc(centerX, centerY, radius, startAngle, endAngle);
       this.ctx.fillStyle = segment.color;
       this.ctx.fill();
 
-      // Level indicator
+      // Малюємо рівень
       const segmentRadius = (segment.level / levels) * radius;
       this.ctx.beginPath();
       this.ctx.moveTo(centerX, centerY);
@@ -99,7 +97,7 @@ class Wheel {
       this.ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
       this.ctx.fill();
 
-      // Text
+      // Текст
       const textAngle = startAngle + angleStep / 2;
       const textX = centerX + Math.cos(textAngle) * (radius + 20);
       const textY = centerY + Math.sin(textAngle) * (radius + 20);
@@ -113,19 +111,9 @@ class Wheel {
   clear() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
-
-  download() {
-    const link = document.createElement("a");
-    link.download = "balance_wheel.png";
-    link.href = this.canvas.toDataURL();
-    link.click();
-  }
 }
 
 const wheel = new Wheel(canvas, config);
-wheel.draw();
-
-const accordion = document.getElementById("accordion");
 
 const deleteSegment = (id) => {
   const index = config.segments.findIndex((segment) => segment.id === id);
@@ -135,21 +123,22 @@ const deleteSegment = (id) => {
   }
 };
 
-const createSegmentItem = (segment, index) => {
+const createSegmentItem = (segment) => {
   const item = document.createElement("div");
   item.className = "accordion-item";
 
   const header = document.createElement("div");
   header.className = "accordion-header flex justify-between items-center";
   header.innerHTML = `
-      <span class="flex-1 text-xl font-bold italic">${segment.text}</span>
-      <i class="fa fa-chevron-down"></i>
-    `;
+    <span id="segment-level-${segment.id}" class="flex-1 text-xl font-bold italic">
+      ${segment.text} - ${segment.level}
+    </span>
+    <i class="fa fa-chevron-down"></i>
+  `;
   header.addEventListener("click", () => {
     const content = item.querySelector(".accordion-content");
     const icon = header.querySelector("i");
     content.classList.toggle("open");
-
     icon.classList.toggle("fa-chevron-down");
     icon.classList.toggle("fa-chevron-up");
   });
@@ -157,28 +146,35 @@ const createSegmentItem = (segment, index) => {
   const content = document.createElement("div");
   content.className = "accordion-content";
   content.innerHTML = `
-      <div class="flex items-center gap-2">
-        <label for="slider-${index}" class="flex-1 font-medium text-gray-700">${segment.text} Рівень:</label>
-        <input 
-          type="range" 
-          id="slider-${index}" 
-          min="0" 
-          max="10" 
-          value="${segment.level}" 
-          class="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer accent-blue-500 transition focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75" 
-        />
-        <button 
-          class="ml-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition" 
-          onclick="deleteSegment(${segment.id})"
-        >
-          Видалити
-        </button>
-      </div>
-      <p class="text-sm text-gray-600 mt-2">${segment.description}</p>
-    `;
+    <div class="flex items-center gap-2">
+      <label for="slider-${segment.id}" class="flex-1 font-medium text-gray-700">
+        ${segment.text} Рівень:
+      </label>
+      <input 
+        type="range" 
+        id="slider-${segment.id}" 
+        min="0" 
+        max="10" 
+        value="${segment.level}" 
+        class="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer accent-blue-500 transition focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75" 
+      />
+      <button 
+        class="ml-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition" 
+        onclick="deleteSegment(${segment.id})"
+      >
+        Видалити
+      </button>
+    </div>
+    <p class="text-sm text-gray-600 mt-2">${segment.description}</p>
+  `;
 
-  content.querySelector("input").addEventListener("input", (e) => {
+  const slider = content.querySelector("input");
+  slider.addEventListener("input", (e) => {
     segment.level = parseInt(e.target.value);
+    const levelDisplay = document.getElementById(`segment-level-${segment.id}`);
+    if (levelDisplay) {
+      levelDisplay.textContent = `${segment.text} - ${segment.level}`;
+    }
     wheel.clear();
     wheel.draw();
   });
@@ -188,59 +184,25 @@ const createSegmentItem = (segment, index) => {
   return item;
 };
 
-config.segments.forEach((segment, index) => {
-  accordion.appendChild(createSegmentItem(segment, index));
-});
-
-// Add selected spheres
-const getRandomColor = () => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-};
-
-document
-  .getElementById("add-selected-spheres")
-  .addEventListener("click", () => {
-    const selectedSpheres = document.querySelectorAll(
-      "#sphere-list input:checked"
-    );
-
-    if (config.segments.length >= 8) {
-      const message = document.getElementById("message");
-      message.style.display = "block";
-      setTimeout(() => {
-        message.style.display = "none";
-      }, 3000); // Приховуємо повідомлення через 3 секунди
-      return;
-    }
-
-    selectedSpheres.forEach((checkbox) => {
-      // Отримуємо текст з елемента label поруч з чекбоксом
-      const sphereText = checkbox.closest('label') ? checkbox.closest('label').textContent.trim() : '';
-      
-      if (sphereText && !config.segments.some((segment) => segment.text === sphereText)) {
-        const newSegment = {
-          id: config.segments.length + 1,
-          color: getRandomColor(),
-          text: sphereText,
-          level: 0,
-          description: `${checkbox.value}`,
-        };
-        config.segments.push(newSegment);
-      }
-    });
-    renderWheelAndAccordion();
-  });
-
 const renderWheelAndAccordion = () => {
   wheel.clear();
   wheel.draw();
+  const accordion = document.getElementById("accordion");
   accordion.innerHTML = "";
-  config.segments.forEach((segment, index) => {
-    accordion.appendChild(createSegmentItem(segment, index));
+  config.segments.forEach((segment) => {
+    accordion.appendChild(createSegmentItem(segment));
   });
 };
+
+
+
+document.getElementById('download').addEventListener('click', function() {
+  const link = document.createElement('a');
+  link.href = canvas.toDataURL('image/png');
+  link.download = 'wheel.png';
+  link.click();
+});
+
+
+
+renderWheelAndAccordion();
