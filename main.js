@@ -101,10 +101,20 @@ class Wheel {
       const textAngle = startAngle + angleStep / 2;
       const textX = centerX + Math.cos(textAngle) * (radius + 20);
       const textY = centerY + Math.sin(textAngle) * (radius + 20);
-      this.ctx.font = `${this.config.fontSize}px Arial`;
+      const text = segment.text.toUpperCase();
+      this.ctx.font = `bold ${this.config.fontSize}px Arial`;
       this.ctx.fillStyle = "#000";
       this.ctx.textAlign = "center";
-      this.ctx.fillText(segment.text, textX, textY);
+
+      // Малюємо бекграунд для тексту
+      const textWidth = this.ctx.measureText(text).width;
+      const padding = 5;
+      this.ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+      this.ctx.fillRect(textX - textWidth / 2 - padding, textY - this.config.fontSize, textWidth + padding * 2, this.config.fontSize + padding);
+
+      // Малюємо текст
+      this.ctx.fillStyle = "#000";
+      this.ctx.fillText(text, textX, textY);
     });
   }
 
