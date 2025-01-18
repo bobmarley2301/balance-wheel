@@ -57,11 +57,11 @@
   
   /* Кнопка "Завантажити" */
   #download {
-    background-color: #3182ce;
+    background-color: #101267;
   }
   
   #download:hover {
-    background-color: #2b6cb0;
+    background-color: #101267;
   }
   
   /* Стилі для Canvas */
