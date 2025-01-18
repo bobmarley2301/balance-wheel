@@ -168,12 +168,6 @@ const createSegmentItem = (segment) => {
         value="${segment.level}" 
         class="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer accent-blue-500 transition focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75" 
       />
-      <button 
-        class="ml-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition" 
-        onclick="deleteSegment(${segment.id})"
-      >
-        Видалити
-      </button>
     </div>
     <p class="text-sm text-gray-600 mt-2">${segment.description}</p>
   `;
